@@ -1,0 +1,65 @@
+{
+  "manifest_version": 3,
+  "name": "AI Anchor - 智能会话锚点",
+  "version": "1.0.0",
+  "description": "为 ChatGPT, DeepSeek, 豆包等 AI 生成侧边悬浮时间轴。支持点击瞬间传送、智能记忆与自定义换肤。让长对话浏览如电梯般丝滑。",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://chatglm.cn/*",
+        "*://chat.deepseek.com/*",
+        "*://chatgpt.com/*",
+        "*://grok.com/*",
+        "*://x.com/*",
+        "*://www.doubao.com/*",
+        "*://tongyi.aliyun.com/*",
+        "*://*.qianwen.com/*",
+        "*://www.kimi.com/*",
+        "*://yuanbao.tencent.com/*"
+      ],
+      "css": ["styles.css"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "*://chatgpt.com/*",
+        "*://grok.com/*",
+        "*://x.com/*",
+        "*://www.doubao.com/*",
+        "*://tongyi.aliyun.com/*",
+        "*://*.qianwen.com/*",
+        "*://www.kimi.com/*",
+        "*://yuanbao.tencent.com/*"
+      ],
+      "css": ["patch.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "host_permissions": [
+    "*://chatglm.cn/*",
+    "*://chat.deepseek.com/*",
+    "*://chatgpt.com/*",
+    "*://grok.com/*",
+    "*://x.com/*",
+    "*://www.doubao.com/*",
+    "*://tongyi.aliyun.com/*",
+    "*://*.qianwen.com/*",
+    "*://www.kimi.com/*",
+    "*://yuanbao.tencent.com/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "permissions": [
+    "storage"
+  ]
+}

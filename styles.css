@@ -1,0 +1,282 @@
+@keyframes glm-highlight-pulse {
+    0% { box-shadow: 0 0 0 transparent; background-color: transparent; outline-color: transparent; }
+    30% { 
+        box-shadow: 0 0 25px rgba(64, 158, 255, 0.6); 
+        background-color: rgba(64, 158, 255, 0.1); 
+        outline-color: rgba(64, 158, 255, 0.8);
+    }
+    100% { box-shadow: 0 0 0 transparent; background-color: transparent; outline-color: transparent; }
+}
+.glm-flash-target {
+    animation: glm-highlight-pulse 1.8s ease-out forwards !important;
+    border: 1px solid transparent;
+    outline: 2px solid transparent;
+    border-radius: 8px;
+}
+#glm-nav-wrapper {
+    position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
+    max-height: 80vh; height: auto; display: flex; flex-direction: column; align-items: center;
+    z-index: 2147483647; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    width: 50px; padding: 0; background: transparent; border: none;
+}
+#glm-nav-wrapper.collapsed { transform: translateY(-50%) translateX(80px); right: 20px; pointer-events: none; }
+#glm-nav-main-content { display: flex; flex-direction: column; align-items: center; width: 100%; flex: 1; min-height: 0; transition: opacity 0.3s; }
+#glm-nav-wrapper.collapsed #glm-nav-main-content { opacity: 0; pointer-events: none; }
+#glm-scroll-area {
+    flex: 1; min-height: 0; width: 100%; overflow-y: auto; overflow-x: visible;
+    padding: 5px 15px; scrollbar-width: none; -ms-overflow-style: none;
+    display: flex; flex-direction: column; position: relative;
+}
+#glm-scroll-area::-webkit-scrollbar { display: none; }
+.glm-nav-dot {
+    width: 24px; height: 24px;
+    background-size: contain; background-repeat: no-repeat; background-position: center;
+    background-color: transparent; box-shadow: none;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 50%;
+    opacity: 0.6; filter: grayscale(40%); transform: scale(0.85); cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative; flex-shrink: 0; margin: 18px auto; overflow: visible; z-index: 2;
+}
+.glm-nav-dot::after {
+    content: ''; position: absolute; left: 50%; transform: translateX(-50%); top: 100%;
+    height: 38px; width: 1.5px; background: rgba(255, 255, 255, 0.15);
+    pointer-events: none; z-index: -1; transition: all 0.4s;
+}
+.glm-nav-dot:last-child::after { display: none; }
+.glm-nav-dot:hover { opacity: 1; filter: grayscale(0%); transform: scale(1.1); border-color: rgba(255,255,255,0.3); }
+.glm-nav-dot.active { opacity: 1; filter: grayscale(0%) drop-shadow(0 0 8px rgba(64, 158, 255, 0.6)); transform: scale(1.3); z-index: 10; border: none; }
+.glm-nav-dot.is-starred { opacity: 1 !important; filter: grayscale(0%) brightness(1.1) !important; transform: scale(1.1); border: none; }
+.glm-nav-dot.is-starred.active { transform: scale(1.4); filter: drop-shadow(0 0 10px rgba(255, 60, 60, 0.8)) !important; }
+.glm-elevator-btn {
+    width: 28px; height: 28px; flex-shrink: 0;
+    background: rgba(30, 30, 35, 0.85); backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 12px; transition: all 0.2s; user-select: none; margin: 2px 0; z-index: 99999;
+}
+.glm-elevator-btn:hover { background: rgba(64, 158, 255, 0.2); border-color: rgba(64, 158, 255, 0.6); color: #fff; transform: scale(1.1); }
+#glm-toggle-btn {
+    position: absolute; bottom: -45px; width: 24px; height: 24px;
+    background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 50%;
+    color: rgba(255, 255, 255, 0.6); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 12px; transition: all 0.3s; z-index: 100000; pointer-events: auto;
+}
+#glm-toggle-btn:hover { background: rgba(64, 158, 255, 0.8); color: #fff; transform: scale(1.2); }
+#glm-nav-wrapper.collapsed #glm-toggle-btn {
+    transform: translateX(-70px) translateY(-50%); bottom: 50%; width: 30px; height: 60px;
+    border-radius: 15px 0 0 15px; background: rgba(64, 158, 255, 0.3); box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+}
+#glm-nav-wrapper.collapsed #glm-toggle-btn:hover { background: rgba(64, 158, 255, 0.9); width: 35px; }
+#glm-global-tooltip {
+    position: fixed; background: rgba(15, 15, 20, 0.95); backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.95); padding: 10px 16px; font-size: 13px; font-weight: 500;
+    border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6); z-index: 2147483647; pointer-events: none;
+    opacity: 0; visibility: hidden; transition: opacity 0.2s, transform 0.2s;
+    transform: translateY(-50%) translateX(15px); font-family: -apple-system, sans-serif; max-width: 400px;
+}
+#glm-global-tooltip.visible { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(0); }
+#glm-global-tooltip::before {
+    content: ''; position: absolute; left: -5px; top: 50%; transform: translateY(-50%) rotate(45deg);
+    width: 10px; height: 10px; background: inherit;
+    border-left: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); z-index: -1;
+}
+#glm-btn-view { font-size: 14px; margin-bottom: 6px; }
+#glm-nav-wrapper.list-mode {
+    width: 260px; padding: 15px 10px; align-items: stretch;
+    background: rgba(18, 18, 24, 0.92); backdrop-filter: blur(12px);
+    border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+#glm-nav-wrapper.list-mode #glm-scroll-area { overflow-x: hidden; padding: 5px 0; }
+#glm-nav-wrapper.list-mode .glm-nav-dot {
+    background-image: none !important; width: auto; height: auto; border-radius: 6px;
+    margin: 4px 5px; padding: 8px 10px 8px 20px; border: none; transform: none !important;
+    opacity: 0.7; filter: none; background-color: transparent; display: flex; align-items: center;
+}
+#glm-nav-wrapper.list-mode .glm-nav-dot:hover { opacity: 1; background-color: rgba(255, 255, 255, 0.08); }
+#glm-nav-wrapper.list-mode .glm-nav-dot.active { opacity: 1; background-color: rgba(64, 158, 255, 0.15); color: #fff; }
+#glm-nav-wrapper.list-mode .glm-nav-dot::after { display: none; }
+.glm-nav-label { display: none; }
+#glm-nav-wrapper.list-mode .glm-nav-label {
+    display: block; color: rgba(255, 255, 255, 0.85); font-size: 13px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; text-align: left;
+}
+#glm-nav-wrapper.list-mode .glm-nav-dot.active .glm-nav-label { color: #fff; font-weight: 500; }
+#glm-nav-wrapper.list-mode .glm-nav-dot.is-starred .glm-nav-label { color: #FFD700; }
+#glm-nav-wrapper.list-mode .glm-nav-dot::before {
+    content: ''; position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
+    width: 4px; height: 4px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.4);
+}
+#glm-nav-wrapper.list-mode .glm-nav-dot.active::before { background-color: #409EFF; width: 6px; height: 6px; left: 7px; }
+#glm-nav-wrapper.list-mode .glm-nav-dot.is-starred::before { background-color: #FFD700; }
+#glm-settings-modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px);
+    z-index: 200000; display: flex; justify-content: center; align-items: center;
+    opacity: 0; visibility: hidden; transition: all 0.3s;
+}
+#glm-settings-modal-overlay.open { opacity: 1; visibility: visible; }
+#glm-settings-panel {
+    width: 320px; background: rgba(25, 25, 30, 0.95); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    transform: scale(0.9); transition: transform 0.3s;
+}
+#glm-settings-modal-overlay.open #glm-settings-panel { transform: scale(1); }
+.glm-st-header { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 20px; text-align: center; }
+.glm-st-row { margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
+.glm-st-label { color: rgba(255,255,255,0.7); font-size: 13px; }
+.glm-st-preview {
+    width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);
+    background-size: contain; background-repeat: no-repeat; background-position: center;
+    margin: 0 10px;
+}
+.glm-st-actions { display: flex; gap: 8px; }
+.glm-btn-upload {
+    position: relative; overflow: hidden; display: inline-block; cursor: pointer;
+    background: rgba(64, 158, 255, 0.2); color: #409EFF; padding: 4px 10px;
+    border-radius: 4px; font-size: 12px; border: 1px solid rgba(64, 158, 255, 0.4);
+}
+.glm-btn-upload input[type=file] { position: absolute; top: 0; right: 0; opacity: 0; cursor: pointer; height: 100%; width: 100%; }
+.glm-btn-reset {
+    cursor: pointer; background: rgba(255, 255, 255, 0.1); color: rgba(255,255,255,0.6);
+    padding: 4px 10px; border-radius: 4px; font-size: 12px; border: 1px solid rgba(255,255,255,0.1);
+}
+.glm-btn-reset:hover { background: rgba(255, 80, 80, 0.2); color: #ff5050; border-color: rgba(255, 80, 80, 0.4); }
+#glm-btn-close-st {
+    width: 100%; padding: 8px; background: #409EFF; color: white; border: none;
+    border-radius: 8px; font-size: 14px; cursor: pointer; margin-top: 10px;
+}
+#glm-btn-close-st:hover { background: #66b1ff; }
+
+/* === Quarantine Zone: ChatGPT / Grok === */
+.site-chatgpt:not(.list-mode) .glm-nav-dot,
+.site-grok:not(.list-mode) .glm-nav-dot {
+    box-sizing: content-box !important; 
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    flex-shrink: 0 !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    border-radius: 50% !important;
+    transform-origin: center center !important;
+}
+
+.site-chatgpt:not(.list-mode) .glm-nav-dot.active,
+.site-grok:not(.list-mode) .glm-nav-dot.active {
+    border: none !important;
+    box-shadow: none !important;
+    filter: drop-shadow(0 0 6px rgba(64, 158, 255, 0.9)) !important;
+    transform: scale(1.3) !important;
+    background-color: transparent !important;
+}
+
+.site-chatgpt:not(.list-mode) .glm-nav-dot.is-starred.active,
+.site-grok:not(.list-mode) .glm-nav-dot.is-starred.active {
+    filter: drop-shadow(0 0 6px rgba(255, 60, 60, 0.9)) !important;
+}
+
+.site-chatgpt.list-mode, .site-grok.list-mode {
+    width: 260px !important;
+    align-items: stretch !important;
+}
+.site-chatgpt.list-mode .glm-nav-dot, .site-grok.list-mode .glm-nav-dot {
+    width: auto !important; 
+    height: auto !important;
+    min-width: auto !important;
+    min-height: auto !important;
+    border-radius: 6px !important;
+    padding: 8px 10px 8px 20px !important;
+    justify-content: flex-start !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-shrink: 1 !important;
+}
+.site-chatgpt.list-mode .glm-nav-label, .site-grok.list-mode .glm-nav-label {
+    display: block !important;
+    text-align: left !important;
+    width: 100% !important;
+    position: static !important;
+}
+
+.site-chatgpt .glm-elevator-btn, .site-chatgpt #glm-toggle-btn,
+.site-grok .glm-elevator-btn, .site-grok #glm-toggle-btn {
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+    min-height: 28px !important;
+    min-width: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+* 修复：移除静态 box-shadow，防止蓝光卡死 */
+.site-chatgpt .glm-flash-target, .site-grok .glm-flash-target {
+    position: relative !important;
+    z-index: 10 !important;
+    border-radius: var(--glm-flash-radius, 16px) !important;
+}
+
+/* 
+   === 📝 列表视图增强设计 (List View Enhanced) === 
+   适用：ChatGLM, DeepSeek, 豆包
+   功能：宽度加宽，支持双行文字显示
+*/
+
+/* 1. 容器加宽：从 260px -> 300px，横向看更多字 */
+#glm-nav-wrapper.list-mode,
+.site-chatgpt.list-mode, 
+.site-grok.list-mode,
+.site-doubao.list-mode {
+    width: 300px !important;
+    min-width: 300px !important;
+}
+
+/* 2. 列表项微调：允许高度自适应 */
+#glm-nav-wrapper.list-mode .glm-nav-item {
+    height: auto !important;
+    min-height: 40px !important; /* 保证最小高度 */
+    padding: 8px 10px !important;
+}
+
+/* 3. 文字核心样式：双行显示 + 自动换行 */
+#glm-nav-wrapper.list-mode .glm-nav-label {
+    white-space: normal !important; /* 允许换行 */
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important; /* 限制显示 2 行 */
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    
+    /* 排版优化 */
+    line-height: 1.4 !important;
+    font-size: 13px !important;
+    margin-left: 8px !important; /* 图标和文字的间距 */
+}
+
+/* 
+   === 🔵 豆包 (Doubao) & 通义千问 (Tongyi) 视觉特调区 === 
+   背景是白的，宝石必须加深边框，否则隐身了。
+   Kimi 已移除，因为它现在是黑底，用默认样式更好看
+*/
+.site-doubao .glm-nav-dot,
+.site-tongyi .glm-nav-dot {
+    /* 深灰色边框，确保在白底可见 */
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    /* 微微加深的背景，增加实体感 */
+    background-color: rgba(0, 0, 0, 0.05); 
+}
+
+/* 选中状态：加深阴影 */
+.site-doubao .glm-nav-dot.active,
+.site-tongyi .glm-nav-dot.active {
+    filter: drop-shadow(0 0 5px rgba(64, 158, 255, 0.8)) !important;
+}
+
+/* 连线颜色：在白底上用深色线 */
+.site-doubao .glm-nav-dot::after,
+.site-tongyi .glm-nav-dot::after {
+    background: rgba(0, 0, 0, 0.15) !important;
+}

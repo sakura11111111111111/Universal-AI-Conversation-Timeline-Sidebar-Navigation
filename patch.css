@@ -1,0 +1,162 @@
+/* 
+   === ⚠️ 高危修正区 (Patch Zone) ⚠️ ===
+   仅在 ChatGPT 和 Grok 加载。
+   用于对抗 Tailwind CSS 的全局 Reset。
+*/
+
+/* 1. 暴力锁定盒模型：防止图标被边框挤压变形 */
+#glm-nav-wrapper,
+#glm-nav-wrapper * {
+    box-sizing: content-box !important;
+}
+
+/* 2. 强制 Flex 居中对齐：修复按钮和宝石不在一条直线 */
+#glm-nav-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    /* 确保容器本身宽度足够 */
+    width: 50px !important; 
+}
+
+/* 3. 强制子元素（宝石、按钮）水平居中 */
+.glm-nav-item,
+.glm-elevator-btn,
+#glm-toggle-btn {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    left: auto !important;
+    right: auto !important;
+    /* 防止被 Tailwind 的 max-width 限制 */
+    max-width: none !important; 
+}
+
+/* 4. 修复图标容器可能被挤压的问题 */
+.gem-icon {
+    display: block !important;
+    flex-shrink: 0 !important;
+    /* 再次确保宽高锁死 */
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* 5. 针对 Grok 特有的修正 (Grok 可能会给 img 加 display:block 或 margin) */
+.gem-icon img {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+/* 6. 修复设置按钮的位置 */
+#gem-settings-btn {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+}
+
+/* 
+   === ⚠️ 按钮防挤压补丁 === 
+   确保在 Tailwind/Atomic CSS 环境下按钮不消失 
+*/ 
+.site-chatgpt .glm-elevator-btn, .site-chatgpt #glm-toggle-btn, 
+.site-grok .glm-elevator-btn, .site-grok #glm-toggle-btn, 
+.site-kimi .glm-elevator-btn, .site-kimi #glm-toggle-btn, 
+.site-yuanbao .glm-elevator-btn, .site-yuanbao #glm-toggle-btn { /* <--- 【新增】Yuanbao */ 
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+    min-height: 28px !important;
+    min-width: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 
+   === 🚑 列表视图急救包 (List Mode Rescue) 🚑 === 
+   修复 ChatGPT/Grok 下列表模式被挤压的问题
+*/
+
+#glm-nav-wrapper.list-mode {
+    /* 1. 暴力撑开宽度：覆盖掉之前的 50px */
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: none !important; /* 防止 Tailwind 限制最大宽度 */
+
+    /* 2. 解除居中锁定：列表模式下内容要向左对齐或拉伸 */
+    align-items: stretch !important; 
+    
+    /* 3. 修复内边距 */
+    padding: 15px 10px !important;
+    box-sizing: border-box !important;
+    
+    /* 4. 确保背景色不透明（防止文字和网页内容重叠看不清） */
+    background: rgba(30, 30, 30, 0.95) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 修复列表模式下的每一行 */
+#glm-nav-wrapper.list-mode .glm-nav-item {
+    /* 让它填满容器宽度 */
+    width: auto !important;
+    max-width: none !important;
+    
+    /* 恢复外边距，不要强制左右 auto 了 */
+    margin: 4px 0 !important;
+    
+    /* 内部布局：横向排列 (图标+文字) */
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+}
+
+/* 修复列表模式下的图标位置 */
+#glm-nav-wrapper.list-mode .gem-icon {
+    /* 给图标右边留点空隙给文字 */
+    margin-right: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+/* 
+   === 📝 列表视图增强补丁 (List View Enhanced Patch) === 
+   适用：ChatGPT, Grok, 豆包
+   功能：强制覆盖 Tailwind，实现双行文字
+*/
+
+/* 1. 强制容器宽度 300px */
+#glm-nav-wrapper.list-mode,
+.site-chatgpt.list-mode,
+.site-grok.list-mode,
+.site-doubao.list-mode,
+.site-tongyi.list-mode,
+.site-kimi.list-mode,
+.site-yuanbao.list-mode { /* <--- 【新增】Yuanbao */
+    width: 300px !important;
+    min-width: 300px !important;
+}
+
+/* 2. 列表项布局优化 */
+#glm-nav-wrapper.list-mode .glm-nav-item {
+    height: auto !important;
+    padding: 10px !important;
+    align-items: flex-start !important; /* 图标顶端对齐，防止文字多时图标居中不好看 */
+}
+
+/* 3. 修复图标位置：文字多时，图标固定在左上角 */
+#glm-nav-wrapper.list-mode .gem-icon {
+    margin-top: 3px !important; /* 微调图标垂直位置 */
+}
+
+/* 4. 文字双行显示 */
+#glm-nav-wrapper.list-mode .glm-nav-label {
+    white-space: normal !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important; /* 限制 2 行 */
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    
+    /* 强制颜色和排版 */
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    width: 100% !important; /* 撑满剩余空间 */
+}
