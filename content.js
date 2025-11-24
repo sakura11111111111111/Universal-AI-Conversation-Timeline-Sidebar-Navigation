@@ -634,5 +634,51 @@ const DEFAULT_GEM_NORMAL = chrome.runtime.getURL("assets/gem_normal.png");
     });
     observer.observe(document.body, { childList: true, subtree: true });
     setTimeout(generateNavNodes, 1000);
+// ==========================================================================
+    // [MODULE 3] 全局开关控制 (终极方案：动态样式注入)
+    // ==========================================================================
+    
+    const HIDE_STYLE_ID = 'ai-anchor-force-hide';
 
-})();
+    function toggleSidebarVisibility(show) {
+        const existingStyle = document.getElementById(HIDE_STYLE_ID);
+        
+        if (show) {
+            // 🟢 开启：如果存在隐藏补丁，把它撕掉
+            if (existingStyle) existingStyle.remove();
+        } else {
+            // 🔴 关闭：贴上一个“强力隐身符”
+            if (!existingStyle) {
+                const style = document.createElement('style');
+                style.id = HIDE_STYLE_ID;
+                // 使用 html body 前缀增加权重，确保压制 patch.css
+                style.innerHTML = `
+                    html body #glm-nav-wrapper { 
+                        display: none !important; 
+                        visibility: hidden !important;
+                        opacity: 0 !important;
+                        pointer-events: none !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+    }
+
+    // 1. 初始化读取状态
+    chrome.storage.sync.get(['ai_anchor_enabled'], function(result) {
+        // 默认为开启，只有明确记录为 false 才隐藏
+        if (result.ai_anchor_enabled === false) {
+            toggleSidebarVisibility(false);
+        }
+    });
+
+    // 2. 监听 Popup 指令
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request.action === "toggle_sidebar") {
+            // 直接调用显示/隐藏函数
+            toggleSidebarVisibility(request.enabled);
+        }
+    });
+
+})(); // <--- 再次提醒：这是文件结束的括号，一定要保留！
