@@ -44,7 +44,7 @@ Whether you are debating with ChatGPT, coding with DeepSeek, or writing with Dou
 
 ### 🚀 Key Features
 
-*   **Omni-Navigation**: Perfectly adapts to **ChatGPT, DeepSeek, Doubao, Grok, Claude, ChatGLM, Tongyi Qianwen, Kimi, and Yuanbao**.
+*   **Omni-Navigation**: Perfectly adapts to **ChatGPT, DeepSeek, Doubao, Grok,ChatGLM, Tongyi Qianwen, Kimi, and Yuanbao**.
 *   **Instant Jump Engine**: Specially optimized for React/SPA pages. Bypasses virtual scrolling bounce and teleports you directly to the target message.
 *   **Widescreen List View**: Toggle the sidebar to a **300px wide panel**, turning your chat into a readable Table of Contents (TOC).
 *   **Intelligent Memory**: Double-click any node to **Star** it. It highlights key information and saves it to local storage.
@@ -70,7 +70,7 @@ Whether you are debating with ChatGPT, coding with DeepSeek, or writing with Dou
 ### 🚀 核心功能
 
 *   **全域导航 (Omni-Navigation)**
-    一个插件，统领所有 AI。完美适配 **ChatGPT, DeepSeek, 豆包, Grok, Claude, 智谱清言, 通义千问, Kimi, 腾讯元宝** 等 8+ 主流平台。
+    一个插件，统领所有 AI。完美适配 **ChatGPT, DeepSeek, 豆包, Grok, 智谱清言, 通义千问, Kimi, 腾讯元宝**  主流平台。
 *   **非线性阅读引擎 (Instant Jump)**
     针对 ChatGPT 和 豆包 等动态页面特别优化的跳转算法。拒绝页面回弹，忽略虚拟滚动延迟，点击节点直接“空降”至目标位置。
 *   **宽屏大纲模式 (List View TOC)**
